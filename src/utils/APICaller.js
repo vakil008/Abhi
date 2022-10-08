@@ -10,8 +10,6 @@ const Api = async (endpoint, isauthenticated, method, body, contentType) => {
     let headers = {
       Accept: "application/json",
       "Content-Type": contentType || "application/json",
-      "Access-Control-Allow-Origin": "http://localhost:3000",
-      "Access-Control-Allow-Credentials": "true",
     };
     if (isauthenticated) {
       headers = {
