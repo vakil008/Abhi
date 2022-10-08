@@ -5,12 +5,24 @@ import {
   Box,
   Typography,
   Divider,
+  Container,
   InputLabel,
   Select,
   FormControl,
+  FormHelperText,
+  MenuItem,
   Grid,
+  Button,
 } from "@material-ui/core";
-
+import { Table, TextField, CircularProgress } from "@material-ui/core";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Toolbar from "@material-ui/core/Toolbar";
 import { connect } from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../../theme/light";
@@ -51,7 +63,143 @@ const useStyles = (theme) => ({
   },
 });
 
+const headCells = [
+  {
+    id: "facilityName",
+    numeric: false,
+    disablePadding: false,
+    label: "Facility Name",
+  },
+  // {
+  //   id: "vehicleType",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Vehicle Type",
+  // },
+  {
+    id: "checkin",
+    numeric: false,
+    disablePadding: false,
+    label: "Total Check In",
+  },
+  {
+    id: "checkout",
+    numeric: false,
+    disablePadding: false,
+    label: "Total Check Out",
+  },
+  {
+    id: "total",
+    numeric: false,
+    disablePadding: false,
+    label: "Total",
+  },
+];
+
+const paymentHeadCells = [
+  {
+    id: "online",
+    numeric: false,
+    disablePadding: false,
+    label: "Online",
+  },
+  {
+    id: "cash",
+    numeric: false,
+    disablePadding: false,
+    label: "Cash",
+  },
+  {
+    id: "exempt",
+    numeric: false,
+    disablePadding: false,
+    label: "Exempt",
+  },
+  {
+    id: "total",
+    numeric: false,
+    disablePadding: false,
+    label: "Total",
+  },
+];
 let rows = [];
+function EnhancedTableHead(props) {
+  const {
+    classes,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {/* <TableCell padding="checkbox">
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{ "aria-label": "select all desserts" }}
+          />
+        </TableCell> */}
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  console.log("getComparator", order);
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 class Home extends React.PureComponent {
   constructor(props) {
@@ -70,7 +218,7 @@ class Home extends React.PureComponent {
       selected: [],
       order: "asc",
       orderBy: "calories",
-
+      selected: [],
       page: 0,
       rowsPerPage: 10,
       names: [],
@@ -91,14 +239,17 @@ class Home extends React.PureComponent {
 
   componentDidMount() {
     const { userDetails } = this.props;
-    const { loginToken } = userDetails;
+    const { loginToken, facilityid } = userDetails;
 
     this.setState(
       {
         token: loginToken,
+        // facilityid: facilityid,
       },
       () => {
         this.getRefreshMapping();
+
+        // this.getDailyAdminParkingStatusReport();
       }
     );
   }
@@ -108,7 +259,7 @@ class Home extends React.PureComponent {
 
     try {
       const response = await UserService.mapping(deviceuniqueid, token);
-      const { data } = response;
+      const { status, data } = response;
       const { groupmapping } = data;
       const { data: list } = groupmapping;
       console.log("response after getRefreshMapping --> ", response);
@@ -137,7 +288,8 @@ class Home extends React.PureComponent {
   };
 
   getDailyMISAdminReport = async () => {
-    const { token, facilityid, startDate, consolidates } = this.state;
+    const { token, facilityid, startDate, instanceId, consolidates } =
+      this.state;
     console.log("datattatatatatatata", facilityid, "   ", consolidates);
     let facilityidTosend = "";
     if (facilityid === "0") {
@@ -161,7 +313,7 @@ class Home extends React.PureComponent {
         let totalcheckin = 0;
         let totalcheckout = 0;
         let totalPayment = 0;
-
+        let totalVehicle = 0;
         let carIn = 0;
         let carOut = 0;
         let bikeIn = 0;
@@ -198,7 +350,7 @@ class Home extends React.PureComponent {
           totalcheckin = 0;
           totalcheckout = 0;
           totalPayment = 0;
-
+          totalVehicle = 0;
           carIn = 0;
           carOut = 0;
           bikeIn = 0;
@@ -217,13 +369,13 @@ class Home extends React.PureComponent {
               const ifExist = vehicleArray.findIndex(
                 (value, index) => value === vehicleName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 vehicleArray.push(vehicleName);
               }
 
-              carIn = vehicleName === "Car" ? vehiclecount : carIn;
-              bikeIn = vehicleName === "Bike" ? vehiclecount : bikeIn;
-              bicycleIn = vehicleName === "Bicycle" ? vehiclecount : bicycleIn;
+              carIn = vehicleName == "Car" ? vehiclecount : carIn;
+              bikeIn = vehicleName == "Bike" ? vehiclecount : bikeIn;
+              bicycleIn = vehicleName == "Bicycle" ? vehiclecount : bicycleIn;
 
               totalcheckin = totalcheckin + vehiclecount;
             }
@@ -236,14 +388,13 @@ class Home extends React.PureComponent {
               const ifExist = vehicleArray.findIndex(
                 (value, index) => value === vehicleName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 vehicleArray.push(vehicleName);
               }
 
-              carOut = vehicleName === "Car" ? vehiclecount : carOut;
-              bikeOut = vehicleName === "Bike" ? vehiclecount : bikeOut;
-              bicycleOut =
-                vehicleName === "Bicycle" ? vehiclecount : bicycleOut;
+              carOut = vehicleName == "Car" ? vehiclecount : carOut;
+              bikeOut = vehicleName == "Bike" ? vehiclecount : bikeOut;
+              bicycleOut = vehicleName == "Bicycle" ? vehiclecount : bicycleOut;
 
               totalcheckout = totalcheckout + vehiclecount;
             }
@@ -256,16 +407,16 @@ class Home extends React.PureComponent {
               const ifExist = paymentArray.findIndex(
                 (value, index) => value === paymentName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 paymentArray.push(paymentName);
               }
 
               cashCount =
-                paymentName === "Cash" ? amountcollected / 100 : cashCount;
+                paymentName == "Cash" ? amountcollected / 100 : cashCount;
               onlineCount =
-                paymentName === "Online" ? amountcollected / 100 : onlineCount;
+                paymentName == "Online" ? amountcollected / 100 : onlineCount;
               noCashCount =
-                paymentName === "Exempt" ? amountcollected / 100 : noCashCount;
+                paymentName == "Exempt" ? amountcollected / 100 : noCashCount;
 
               if (cashCount !== 0) {
                 amountArray.push(cashCount);
@@ -319,7 +470,8 @@ class Home extends React.PureComponent {
   };
 
   getMonthlyMISAdminReport = async () => {
-    const { token, facilityid, startDate, consolidates } = this.state;
+    const { token, facilityid, startDate, instanceId, consolidates } =
+      this.state;
 
     let facilityidTosend = "";
     if (facilityid === "0") {
@@ -344,7 +496,7 @@ class Home extends React.PureComponent {
         let totalcheckin = 0;
         let totalcheckout = 0;
         let totalPayment = 0;
-
+        let totalVehicle = 0;
         let carIn = 0;
         let carOut = 0;
         let bikeIn = 0;
@@ -381,7 +533,7 @@ class Home extends React.PureComponent {
           totalcheckin = 0;
           totalcheckout = 0;
           totalPayment = 0;
-
+          totalVehicle = 0;
           carIn = 0;
           carOut = 0;
           bikeIn = 0;
@@ -400,13 +552,13 @@ class Home extends React.PureComponent {
               const ifExist = vehicleArray.findIndex(
                 (value, index) => value === vehicleName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 vehicleArray.push(vehicleName);
               }
 
-              carIn = vehicleName === "Car" ? vehiclecount : carIn;
-              bikeIn = vehicleName === "Bike" ? vehiclecount : bikeIn;
-              bicycleIn = vehicleName === "Bicycle" ? vehiclecount : bicycleIn;
+              carIn = vehicleName == "Car" ? vehiclecount : carIn;
+              bikeIn = vehicleName == "Bike" ? vehiclecount : bikeIn;
+              bicycleIn = vehicleName == "Bicycle" ? vehiclecount : bicycleIn;
 
               totalcheckin = totalcheckin + vehiclecount;
             }
@@ -419,14 +571,13 @@ class Home extends React.PureComponent {
               const ifExist = vehicleArray.findIndex(
                 (value, index) => value === vehicleName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 vehicleArray.push(vehicleName);
               }
 
-              carOut = vehicleName === "Car" ? vehiclecount : carOut;
-              bikeOut = vehicleName === "Bike" ? vehiclecount : bikeOut;
-              bicycleOut =
-                vehicleName === "Bicycle" ? vehiclecount : bicycleOut;
+              carOut = vehicleName == "Car" ? vehiclecount : carOut;
+              bikeOut = vehicleName == "Bike" ? vehiclecount : bikeOut;
+              bicycleOut = vehicleName == "Bicycle" ? vehiclecount : bicycleOut;
 
               totalcheckout = totalcheckout + vehiclecount;
             }
@@ -439,16 +590,16 @@ class Home extends React.PureComponent {
               const ifExist = paymentArray.findIndex(
                 (value, index) => value === paymentName
               );
-              if (ifExist === -1) {
+              if (ifExist == -1) {
                 paymentArray.push(paymentName);
               }
 
               cashCount =
-                paymentName === "Cash" ? amountcollected / 100 : cashCount;
+                paymentName == "Cash" ? amountcollected / 100 : cashCount;
               onlineCount =
-                paymentName === "Online" ? amountcollected / 100 : onlineCount;
+                paymentName == "Online" ? amountcollected / 100 : onlineCount;
               noCashCount =
-                paymentName === "Exempt" ? amountcollected / 100 : noCashCount;
+                paymentName == "Exempt" ? amountcollected / 100 : noCashCount;
 
               if (cashCount !== 0) {
                 amountArray.push(cashCount);
@@ -501,6 +652,338 @@ class Home extends React.PureComponent {
     }
   };
 
+  // getDailyAdminParkingStatusReport = async () => {
+  //   const { token, facilityid, startDate } = this.state;
+
+  //   let inputdatetime = moment(startDate).format("DD-MMM-YYYY"); // 01-Oct-2022
+
+  //   try {
+  //     const response = await UserService.AdminParkingStatusReport(
+  //       facilityid,
+  //       token,
+  //       inputdatetime
+  //     );
+
+  //     console.log("response after getDailyAdminParkingStatusReport ", response);
+  //     const { data: res } = response;
+  //     if (res.respCode === 1 && res) {
+  //       const { checkin, checkout, payment } = res;
+
+  //       let totalcheckin = 0;
+  //       let totalcheckout = 0;
+  //       let totalPayment = 0;
+  //       let totalVehicle = 0;
+  //       let carIn = 0;
+  //       let carOut = 0;
+  //       let bikeIn = 0;
+  //       let bikeOut = 0;
+  //       let bicycleIn = 0;
+  //       let bicycleOut = 0;
+  //       let autoIn = 0;
+  //       let autoOut = 0;
+
+  //       let vehicleArray = [];
+  //       const vechicles = {
+  //         1: "Bike",
+  //         2: "Car",
+  //         3: "Auto",
+  //         4: "Bicycle",
+  //       };
+  //       if (checkin) {
+  //         for (let i = 0; i < checkin.length; i++) {
+  //           const { vehicletype, vehiclecount } = checkin[i];
+  //           const vehicleName = vechicles[vehicletype];
+  //           const ifExist = vehicleArray.findIndex(
+  //             (value, index) => value === vehicleName
+  //           );
+  //           if (ifExist == -1) {
+  //             vehicleArray.push(vehicleName);
+  //           }
+
+  //           carIn = vehicleName == "Car" ? vehiclecount : carIn;
+  //           bikeIn = vehicleName == "Bike" ? vehiclecount : bikeIn;
+  //           bicycleIn = vehicleName == "Bicycle" ? vehiclecount : bicycleIn;
+  //           autoIn = vehicleName == "Auto" ? vehiclecount : autoIn;
+
+  //           totalcheckin = totalcheckin + vehiclecount;
+  //         }
+  //         console.log("checkin data", carIn);
+  //       }
+  //       if (checkout) {
+  //         for (let i = 0; i < checkout.length; i++) {
+  //           const { vehicletype, vehiclecount } = checkout[i];
+  //           const vehicleName = vechicles[vehicletype];
+  //           const ifExist = vehicleArray.findIndex(
+  //             (value, index) => value === vehicleName
+  //           );
+  //           if (ifExist == -1) {
+  //             vehicleArray.push(vehicleName);
+  //           }
+
+  //           carOut = vehicleName == "Car" ? vehiclecount : carOut;
+  //           bikeOut = vehicleName == "Bike" ? vehiclecount : bikeOut;
+  //           bicycleOut = vehicleName == "Bicycle" ? vehiclecount : bicycleOut;
+  //           autoOut = vehicleName == "Auto" ? vehiclecount : autoOut;
+
+  //           totalcheckout = totalcheckout + vehiclecount;
+  //         }
+  //       }
+
+  //       const paymentValue = {
+  //         2: "Cash",
+  //         3: "Online",
+  //         5: "Exempt",
+  //       };
+  //       let paymentArray = [];
+  //       // let colorArray = [(opacity = 1) => `#2E7D32`,(opacity = 1) => `#FD0002`,(opacity = 1) => `#00266B`];
+  //       let colorArray = [];
+
+  //       let amountArray = [];
+  //       let cashCount = 0;
+  //       let onlineCount = 0;
+  //       let noCashCount = 0;
+
+  //       if (payment) {
+  //         for (let i = 0; i < payment.length; i++) {
+  //           const { paymentmode, amountcollected } = payment[i];
+  //           const paymentName = paymentValue[paymentmode];
+  //           const ifExist = paymentArray.findIndex(
+  //             (value, index) => value === paymentName
+  //           );
+  //           if (ifExist == -1) {
+  //             paymentArray.push(paymentName);
+  //           }
+
+  //           cashCount =
+  //             paymentName == "Cash" ? amountcollected / 100 : cashCount;
+  //           onlineCount =
+  //             paymentName == "Online" ? amountcollected / 100 : onlineCount;
+  //           noCashCount =
+  //             paymentName == "Exempt" ? amountcollected / 100 : noCashCount;
+
+  //           if (cashCount !== 0) {
+  //             amountArray.push(cashCount);
+  //           } else if (onlineCount !== 0) {
+  //             amountArray.push(onlineCount);
+  //           } else if (noCashCount !== 0) {
+  //             amountArray.push(noCashCount);
+  //           }
+  //           if (paymentmode === 2) {
+  //             colorArray.push((opacity = 1) => `#2E7D32`);
+  //           } else if (paymentmode === 3) {
+  //             colorArray.push((opacity = 1) => `#FD0002`);
+  //           } else if (paymentmode === 5) {
+  //             colorArray.push((opacity = 1) => `#00266B`);
+  //           }
+  //           if (paymentmode !== 5) {
+  //             totalPayment = totalPayment + amountcollected / 100;
+  //           }
+  //         }
+  //       }
+
+  //       let finalArray = [];
+
+  //       let objCar = {
+  //         name: "Car",
+  //         totalin: carIn,
+  //         totalout: carOut,
+  //       };
+  //       finalArray.push(objCar);
+  //       let objBike = {
+  //         name: "Bike",
+  //         totalin: bikeIn,
+  //         totalout: bikeOut,
+  //       };
+  //       finalArray.push(objBike);
+  //       let objBicycle = {
+  //         name: "Bicycle",
+  //         totalin: bicycleIn,
+  //         totalout: bicycleOut,
+  //       };
+  //       finalArray.push(objBicycle);
+
+  //       this.setState({
+  //         dailyReport: finalArray,
+  //         totalCheckIn: totalcheckin,
+  //         totalCheckOut: totalcheckout,
+  //         totalCash: cashCount,
+  //         totalOnline: onlineCount,
+  //         totalNoCash: noCashCount,
+  //         totalAmount: totalPayment,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("error getDailyAdminParkingStatusReport", error);
+  //   }
+  // };
+
+  // getMonthlyAdminParkingStatusReport = async (inputdate) => {
+  //   const { token, facilityid, startDate } = this.state;
+  //   let inputdatetime = moment(inputdate).format("MMM-YYYY"); // 01-Oct-2022
+
+  //   try {
+  //     const response = await UserService.AdminMonthlyParkingStatusReport(
+  //       facilityid,
+  //       token,
+  //       inputdatetime
+  //     );
+
+  //     console.log(
+  //       "response after getMonthlyAdminParkingStatusReport ",
+  //       response
+  //     );
+  //     const { data: res } = response;
+  //     if (res.respCode === 1 && res) {
+  //       const { checkin, checkout, payment } = res;
+
+  //       let totalcheckin = 0;
+  //       let totalcheckout = 0;
+  //       let totalPayment = 0;
+  //       let totalVehicle = 0;
+  //       let carIn = 0;
+  //       let carOut = 0;
+  //       let bikeIn = 0;
+  //       let bikeOut = 0;
+  //       let bicycleIn = 0;
+  //       let bicycleOut = 0;
+  //       let autoIn = 0;
+  //       let autoOut = 0;
+
+  //       let vehicleArray = [];
+  //       const vechicles = {
+  //         1: "Bike",
+  //         2: "Car",
+  //         3: "Auto",
+  //         4: "Bicycle",
+  //       };
+  //       if (checkin) {
+  //         for (let i = 0; i < checkin.length; i++) {
+  //           const { vehicletype, vehiclecount } = checkin[i];
+  //           const vehicleName = vechicles[vehicletype];
+  //           const ifExist = vehicleArray.findIndex(
+  //             (value, index) => value === vehicleName
+  //           );
+  //           if (ifExist == -1) {
+  //             vehicleArray.push(vehicleName);
+  //           }
+
+  //           carIn = vehicleName == "Car" ? vehiclecount : carIn;
+  //           bikeIn = vehicleName == "Bike" ? vehiclecount : bikeIn;
+  //           bicycleIn = vehicleName == "Bicycle" ? vehiclecount : bicycleIn;
+  //           autoIn = vehicleName == "Auto" ? vehiclecount : autoIn;
+
+  //           totalcheckin = totalcheckin + vehiclecount;
+  //         }
+  //         console.log("checkin data", carIn);
+  //       }
+  //       if (checkout) {
+  //         for (let i = 0; i < checkout.length; i++) {
+  //           const { vehicletype, vehiclecount } = checkout[i];
+  //           const vehicleName = vechicles[vehicletype];
+  //           const ifExist = vehicleArray.findIndex(
+  //             (value, index) => value === vehicleName
+  //           );
+  //           if (ifExist == -1) {
+  //             vehicleArray.push(vehicleName);
+  //           }
+
+  //           carOut = vehicleName == "Car" ? vehiclecount : carOut;
+  //           bikeOut = vehicleName == "Bike" ? vehiclecount : bikeOut;
+  //           bicycleOut = vehicleName == "Bicycle" ? vehiclecount : bicycleOut;
+  //           autoOut = vehicleName == "Auto" ? vehiclecount : autoOut;
+
+  //           totalcheckout = totalcheckout + vehiclecount;
+  //         }
+  //       }
+
+  //       const paymentValue = {
+  //         2: "Cash",
+  //         3: "Online",
+  //         5: "Exempt",
+  //       };
+  //       let paymentArray = [];
+  //       // let colorArray = [(opacity = 1) => `#2E7D32`,(opacity = 1) => `#FD0002`,(opacity = 1) => `#00266B`];
+  //       let colorArray = [];
+
+  //       let amountArray = [];
+  //       let cashCount = 0;
+  //       let onlineCount = 0;
+  //       let noCashCount = 0;
+
+  //       if (payment) {
+  //         for (let i = 0; i < payment.length; i++) {
+  //           const { paymentmode, amountcollected } = payment[i];
+  //           const paymentName = paymentValue[paymentmode];
+  //           const ifExist = paymentArray.findIndex(
+  //             (value, index) => value === paymentName
+  //           );
+  //           if (ifExist == -1) {
+  //             paymentArray.push(paymentName);
+  //           }
+
+  //           cashCount =
+  //             paymentName == "Cash" ? amountcollected / 100 : cashCount;
+  //           onlineCount =
+  //             paymentName == "Online" ? amountcollected / 100 : onlineCount;
+  //           noCashCount =
+  //             paymentName == "Exempt" ? amountcollected / 100 : noCashCount;
+
+  //           if (cashCount !== 0) {
+  //             amountArray.push(cashCount);
+  //           } else if (onlineCount !== 0) {
+  //             amountArray.push(onlineCount);
+  //           } else if (noCashCount !== 0) {
+  //             amountArray.push(noCashCount);
+  //           }
+  //           if (paymentmode === 2) {
+  //             colorArray.push((opacity = 1) => `#2E7D32`);
+  //           } else if (paymentmode === 3) {
+  //             colorArray.push((opacity = 1) => `#FD0002`);
+  //           } else if (paymentmode === 5) {
+  //             colorArray.push((opacity = 1) => `#00266B`);
+  //           }
+  //           if (paymentmode !== 5) {
+  //             totalPayment = totalPayment + amountcollected / 100;
+  //           }
+  //         }
+  //       }
+
+  //       let finalArray = [];
+
+  //       let objCar = {
+  //         name: "Car",
+  //         totalin: carIn,
+  //         totalout: carOut,
+  //       };
+  //       finalArray.push(objCar);
+  //       let objBike = {
+  //         name: "Bike",
+  //         totalin: bikeIn,
+  //         totalout: bikeOut,
+  //       };
+  //       finalArray.push(objBike);
+  //       let objBicycle = {
+  //         name: "Bicycle",
+  //         totalin: bicycleIn,
+  //         totalout: bicycleOut,
+  //       };
+  //       finalArray.push(objBicycle);
+
+  //       this.setState({
+  //         dailyReport: finalArray,
+  //         totalCheckIn: totalcheckin,
+  //         totalCheckOut: totalcheckout,
+  //         totalCash: cashCount,
+  //         totalOnline: onlineCount,
+  //         totalNoCash: noCashCount,
+  //         totalAmount: totalPayment,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("error getMonthlyAdminParkingStatusReport", error);
+  //   }
+  // };
+
   handleChange = (event) => {
     const { mappingList, type } = this.state;
 
@@ -534,7 +1017,9 @@ class Home extends React.PureComponent {
       () => {
         if (type === "Daily") {
           this.getDailyMISAdminReport();
+          // this.getDailyAdminParkingStatusReport();
         } else {
+          // this.getMonthlyAdminParkingStatusReport();
           this.getMonthlyMISAdminReport();
         }
       }
@@ -558,8 +1043,10 @@ class Home extends React.PureComponent {
       },
       () => {
         if (event.target.value === "Daily") {
+          //this.getDailyAdminParkingStatusReport();
           this.getDailyMISAdminReport();
         } else {
+          // this.getMonthlyAdminParkingStatusReport();
           this.getMonthlyMISAdminReport();
         }
       }
@@ -586,8 +1073,10 @@ class Home extends React.PureComponent {
       },
       () => {
         if (type === "Daily") {
+          //this.getDailyAdminParkingStatusReport();
           this.getDailyMISAdminReport();
         } else {
+          // this.getMonthlyAdminParkingStatusReport();
           this.getMonthlyMISAdminReport();
         }
       }
@@ -660,13 +1149,24 @@ class Home extends React.PureComponent {
   render() {
     const { classes } = this.props;
     const {
+      instanceId,
       startDate,
       endDate,
       mappingList,
       type,
-
+      rowsPerPage,
+      page,
+      selected,
+      orderBy,
+      order,
       dailyReport,
-
+      facilityName,
+      totalCheckIn,
+      totalCheckOut,
+      totalCash,
+      totalOnline,
+      totalNoCash,
+      totalAmount,
       overallCheckin,
       overallCheckout,
       overallPayment,
@@ -675,6 +1175,11 @@ class Home extends React.PureComponent {
 
     console.log("dailyReportdailyReportdailyReport", dailyReport);
     const rows = dailyReport;
+    const emptyRows =
+      rowsPerPage -
+      Math.min(rowsPerPage, dailyReport.length - page * rowsPerPage);
+
+    const isSelected = (id) => selected.indexOf(id) !== -1;
 
     console.log("mappingList", mappingList, " type", type);
     return (
@@ -765,6 +1270,97 @@ class Home extends React.PureComponent {
               </Grid>
             </MuiPickersUtilsProvider>
 
+            {/* <div className="data-table">
+              <div className={classes.roots}>
+                <Paper className={classes.papers} elevation={0}>
+                  <TableContainer>
+                    <Table
+                      className={classes.table}
+                      aria-labelledby="tableTitle"
+                      aria-label="enhanced table"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          {headCells.map((headCell) => (
+                            <TableCell
+                              key={headCell.id}
+                              align={"left"}
+                              padding={"none"}
+                            >
+                              <TableSortLabel>{headCell.label}</TableSortLabel>
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rows.map((Lead, index) => {
+                          console.log("first", Lead);
+                          const isItemSelected = isSelected(Lead.id);
+                          const labelId = `enhanced-table-checkbox-${index}`;
+
+                          return (
+                            <TableRow
+                              hover
+                              tabIndex={-1}
+                              key={index}
+                              selected={isItemSelected}
+                            >
+                              <TableCell
+                                component="th"
+                                id={labelId}
+                                scope="row"
+                                padding="none"
+                                align="left"
+                                color="green"
+                              >
+                                {facilityName}
+                              </TableCell>
+                              <TableCell
+                                component="th"
+                                id={labelId}
+                                scope="row"
+                                padding="none"
+                                align="left"
+                                color="green"
+                              >
+                                {Lead.name}
+                              </TableCell>
+                              <TableCell align="left">{Lead.totalin}</TableCell>
+                              <TableCell align="left">
+                                {Lead.totalout}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                        {instanceId ? null : (
+                          <TableRow>
+                            <TableCell colSpan={1}>Total</TableCell>
+                            <TableCell align="left">{totalCheckIn}</TableCell>
+                            <TableCell align="left">{totalCheckOut}</TableCell>
+                            <TableCell align="left">{totalAmount}</TableCell>
+                          </TableRow>
+                        )}
+
+                        <TableRow>
+                          <TableCell>Tax</TableCell>
+                          <TableCell align="right">rate</TableCell>
+                          <TableCell align="right">ohh</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={2}>Total</TableCell>
+                          <TableCell align="right">ok</TableCell>
+                        </TableRow>
+                        {emptyRows > 0 && (
+                          <TableRow>
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Paper>
+              </div>
+            </div> */}
             <div>
               <ReactHTMLTableToExcel
                 id="test-table-xls-button"
