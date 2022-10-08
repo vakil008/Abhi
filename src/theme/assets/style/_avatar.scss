@@ -1,0 +1,127 @@
+.avatar-primary {
+  &.MuiAvatar-root {
+    background-color: color('shades', 'transparent');
+    color: inherit;
+    font-size: 1rem;
+    line-height: 41px;
+  }
+}
+.MuiAvatar-root {
+  &.MuiAvatar-circular {
+    font-size: 0.938rem;
+    // font-weight: 500;
+  }
+}
+.avatar-group-large {
+  .MuiAvatar-root {
+    width: 70px;
+    height: 70px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    border: 4px solid #f3f6f9;
+    margin-left: -15px;
+  }
+}
+.user-detail-avatar {
+  .MuiAvatar-root {
+    width: 50px;
+    height: 50px;
+  }
+}
+.avatar-status-large {
+  .MuiAvatar-root {
+    width: 50px;
+    height: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+}
+
+.avatar-group-images {
+  &.MuiAvatar-root {
+    @include flex-wrap(wrap);
+    img {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .image-box {
+    // @include flexbox();
+    // flex: 1 1 20px;
+    // box-sizing: border-box;
+    // outline: 1px solid #fff;
+    // font-size: 10px;
+    // text-align: center;
+    // justify-content: center;
+    // align-items: center;
+  }
+  &.avatar-group-half {
+    // .image-box {
+    //   flex: 1 1 20px;
+    //   height: 100%;
+    // }
+  }
+}
+.avatar-large-size {
+  &.MuiAvatar-root {
+    width: 51px;
+    height: 51px;
+  }
+}
+.avatar-light-large {
+  .MuiAvatar-root {
+    width: 82px;
+    height: 82px;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+}
+.profile-avatar-large {
+  .MuiAvatar-root {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+.avatar-group-images.MuiAvatar-root {
+  @include border-radius(50%);
+  @include flex-direction(row);
+  overflow: hidden;
+  align-items: inherit;
+}
+.MuiBox-root.avatar-list-group {
+  @include flexbox();
+  flex-basis: 50%;
+  @include flex-direction(column);
+}
+.MuiBox-root.image-box {
+  box-flex: 1;
+  flex-grow: 1;
+  // font-size: 14px;
+  outline: 1.5px solid #fff;
+  @include flexbox();
+  @include align-items(center);
+  @include justify-content(center);
+  line-height: 1;
+  flex: 1 1 18px;
+  font-weight: normal;
+  // flex: 1;
+}
+@media screen and (min-width: 320px) {
+  .MuiBox-root.image-box {
+    font-size: calc(14px - 0 * ((100vw - 320px) / 680));
+  }
+}
+.group-mobile-avatar {
+  &.MuiAvatar-root {
+    @include breakpoint(md) {
+      line-height: 50px;
+    }
+    @include breakpoint(vs) {
+      line-height: 40px;
+    }
+  }
+}

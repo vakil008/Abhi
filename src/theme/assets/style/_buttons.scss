@@ -1,0 +1,176 @@
+.custom-button {
+  &.MuiButton-root {
+    min-height: 47px;
+  }
+}
+.more-icon-button {
+  &.MuiIconButton-root {
+    @include margin-padding(all, null, all, 3px);
+  }
+}
+
+.warning-button {
+  .MuiButton-root {
+    background: color('shades', 'transparent');
+    font-size: 0.75rem;
+    @include margin-padding(all, null, all, 8px 16px 7px);
+    &:hover {
+      background: color('shades', 'transparent');
+      opacity: 0.8;
+    }
+  }
+}
+.create-relationship-button {
+  &.MuiButton-root {
+    @include margin-padding(all, null, all, 12px 22px);
+    @include border-radius(7px);
+    display: none;
+    @include breakpoint(md) {
+      display: block;
+    }
+  }
+}
+.next-button {
+  &.MuiButton-root {
+    width: 100%;
+  }
+}
+.cancel-button {
+  &.MuiButton-root {
+    width: 100%;
+  }
+}
+.button-arrow {
+  &.MuiButton-root {
+    @include border-radius(50px);
+    font-size: 0.75rem;
+    font-weight: 400;
+    .MuiButton-endIcon {
+      margin-left: 3px;
+    }
+    &.button-dropdown-arrow {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.view-more-button {
+  &.MuiButton-root {
+    background: color('shades', 'transparent');
+    font-weight: 500;
+  }
+}
+
+.add-more-button {
+  &.MuiButton-root {
+    @include border-radius(50px);
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-transform: capitalize;
+    @include margin-padding(all, null, all, 4px 15px 3px);
+  }
+}
+
+.connect-button {
+  &.MuiButton-root {
+    min-width: 192px;
+    width: 100%;
+  }
+}
+
+.addmore-member-button {
+  &.MuiButton-root {
+    @include margin-padding(all, null, all, 12px 22px);
+    @include border-radius(7px);
+  }
+}
+
+.leave-group-button {
+  .MuiButton-root {
+    border: none;
+    width: 100%;
+  }
+}
+
+.success-button {
+  .MuiButton-root {
+    background: color('shades', 'transparent');
+    font-size: 0.75rem;
+    &:hover {
+      background: color('shades', 'transparent');
+      opacity: 0.8;
+    }
+  }
+  &.join-meeting-button {
+    .MuiButton-root {
+      min-width: 190px;
+      @include margin-padding(all, null, all, 7px 22px);
+      font-size: 0.9375rem;
+    }
+  }
+}
+.close-detail-button {
+  &.MuiButton-root {
+    @include border-radius(0 0 0 5px);
+    font-size: 0.75rem;
+  }
+}
+.button-outlined-link {
+  .MuiButton-root {
+    min-width: 171px;
+    @include margin-padding(all, null, all, 7px 22px);
+    font-size: 0.9375rem;
+  }
+}
+.register-button {
+  &.MuiButton-root {
+    @include margin-padding(all, null, all, 8px 22px);
+    font-size: 0.9375rem;
+    min-height: 47px;
+  }
+}
+.assignhost-btn-oe {
+  .MuiButton-root {
+    border: none;
+    min-height: 40px;
+    @include margin-padding(all, null, all, 5px 19px);
+    font-size: 0.813rem;
+    max-width: 288px;
+    width: 100%;
+    min-width: 288px;
+    &:hover {
+      border: none;
+      background-color: rgba(244, 67, 54, 0.08);
+    }
+    @include breakpoint(xs) {
+      min-width: 100%;
+      font-size: 0.75rem;
+    }
+  }
+  @include breakpoint(xs) {
+    width: 100%;
+  }
+}
+.yes-btn-rc {
+  width: 100%;
+  &.MuiButton-outlined {
+    border: none;
+    min-height: 47px;
+    font-size: 0.875rem;
+    &:hover {
+      background: color('shades', 'transparent');
+    }
+  }
+}
+
+.continue-btn-rc {
+  &.MuiButton-contained {
+    background: color('shades', 'transparent');
+    width: 100%;
+    min-height: 47px;
+    font-size: 0.875rem;
+    &:hover {
+      background: color('shades', 'transparent');
+    }
+  }
+}

@@ -1,0 +1,709 @@
+.document-calculationfield-rc {
+  .MuiOutlinedInput-input {
+    padding: 11.7px 14px;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+.normal-textfield-rc {
+  .MuiInputBase-input {
+    height: 2.08em;
+    font-size: 1rem;
+  }
+  .MuiInput-underline {
+    &:before {
+      border-bottom: 1px solid #bdbdbd;
+    }
+  }
+}
+
+.inputfield-options-rc {
+  .MuiOutlinedInput-input {
+    @include margin-padding(all, null, all, 15.5px 70px 15.5px 40px);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .textfiield-border {
+    z-index: 1;
+    @include absolute(left 0px top 0px);
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  &.MuiFormControl-root {
+    // max-width: 250px;
+    display: none;
+  }
+  .MuiOutlinedInput-root {
+    // @include border-radius(0 4px 4px 0);
+  }
+  &.inputFieldActiverc {
+    display: block;
+  }
+}
+.inputfieldEditActive {
+  .inputfield-options-rc {
+    &.MuiFormControl-root {
+      display: block;
+    }
+    .edit-options-rc.MuiBox-root,
+    .editoptions-rc.MuiBox-root {
+      display: flex;
+    }
+  }
+}
+
+.email-textfiled-oe {
+  .MuiInputBase-root {
+    font-size: 0.938rem;
+    background-color: transparent;
+  }
+  .MuiInputBase-input {
+    font-size: 1rem;
+    padding: 9px 0 10px;
+    font-weight: 500;
+    @include breakpoint(sm) {
+      font-size: 1rem;
+    }
+  }
+  label + .MuiInput-formControl {
+    margin-top: 33px;
+  }
+  .MuiFormLabel-root {
+    font-size: 0.938rem;
+  }
+  .MuiInputLabel-formControl {
+    transform: translate(0, 42px) scale(1);
+  }
+  .MuiInputLabel-shrink {
+    transform: translate(0, 1.5px) scale(0.88);
+  }
+  &.MuiFormControl-root {
+    max-width: 500px;
+    width: 100%;
+  }
+  .MuiInput-underline {
+    &:before {
+      border-bottom: 2px solid #e0e0e0;
+    }
+  }
+  &.basicinfo-textfield-oe {
+    label + .MuiInput-formControl {
+      margin-top: 20px;
+    }
+    .MuiInputLabel-formControl {
+      transform: translate(0, 25px) scale(1);
+    }
+    .MuiInputLabel-shrink {
+      transform: translate(0, 1.5px) scale(0.88);
+    }
+    &.MuiFormControl-root {
+      // max-width: 321px;
+    }
+  }
+}
+
+.inputurl-textfield-oe {
+  margin-bottom: -20px;
+  @include relative();
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #712c63;
+  }
+  .MuiOutlinedInput-root {
+    border-radius: 50px;
+  }
+  .MuiFormControl-root {
+    width: 100%;
+  }
+  .MuiOutlinedInput-input {
+    @include margin-padding(all, null, all, 18.5px 14px 18.5px 115px);
+    @include breakpoint(sm) {
+      @include margin-padding(all, null, all, 17px 14px 15px 87px);
+      font-size: 1rem;
+    }
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #712c63;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #712c63;
+  }
+  .MuiTypography-body1 {
+    font-weight: 500;
+    @include breakpoint(sm) {
+      font-size: 0.813rem;
+    }
+  }
+  &.error-validation-oe {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: #e31b0c;
+    }
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: #e31b0c;
+    }
+    .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: #e31b0c;
+    }
+  }
+  &.success-validation-oe {
+    overflow: hidden;
+    max-width: 700px;
+    min-width: 550px;
+    border-radius: 50px;
+    width: 100%;
+    @include breakpoint(sm) {
+      max-width: 700px;
+      min-width: 100%;
+    }
+    .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 200, 150, 0.1);
+      background-color: rgba(0, 200, 150, 0.1);
+    }
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 200, 150, 0.1);
+    }
+    .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 200, 150, 0.1);
+      background-color: rgba(0, 200, 150, 0.1);
+    }
+    .MuiOutlinedInput-input {
+      @include margin-padding(all, null, all, 14.5px 63px 14.5px 54px);
+      @include breakpoint(sm) {
+        @include margin-padding(all, null, all, 17px 40px 15px 54px);
+        font-size: 1rem;
+      }
+    }
+    .MuiTypography-body1 {
+      font-weight: 400;
+    }
+  }
+
+  &.external-textfield-oe {
+    .MuiOutlinedInput-input {
+      @include margin-padding(all, null, all, 18.5px 14px 18.5px 112px);
+      @include breakpoint(sm) {
+        @include margin-padding(all, null, all, 17px 14px 15px 87px);
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.create-password-oe {
+  .MuiFormControl-root {
+    max-width: 100%;
+  }
+  .MuiInputBase-input {
+    padding: 9px 45px 10px 0;
+  }
+}
+.termsandcontion-checkbox {
+  .MuiFormControlLabel-root {
+    margin-right: 0;
+  }
+  .MuiTypography-caption {
+    margin-bottom: 0;
+    font-size: 0.813rem;
+  }
+}
+.tearms-services-oe {
+  &.MuiLink-root {
+    font-weight: bold;
+    line-height: normal;
+  }
+}
+
+.password-strentgh {
+  margin-top: 11px;
+  p {
+    display: none;
+  }
+  div {
+    height: 5px !important;
+    @include border-radius(20px);
+  }
+}
+
+.copy-link-oe {
+  cursor: pointer;
+}
+
+.https-text-oe {
+  &.MuiBox-root {
+    @include breakpoint(sm) {
+      // top: 15px;
+      // left: 43px;
+    }
+  }
+}
+
+.lock-icon-oe {
+  &.MuiBox-root {
+    @include breakpoint(sm) {
+      top: 13px;
+      left: 18px;
+      .MuiSvgIcon-root {
+        font-size: 19px !important;
+      }
+    }
+  }
+}
+
+.language-icon-oe {
+  @include breakpoint(sm) {
+    .MuiSvgIcon-root {
+      font-size: 20px !important;
+    }
+    &.MuiBox-root {
+      top: 14px;
+      left: 17px;
+    }
+  }
+}
+
+.copy-link-oe {
+  @include breakpoint(sm) {
+    .MuiSvgIcon-root {
+      font-size: 18px !important;
+    }
+    &.MuiBox-root {
+    }
+  }
+}
+
+.personalize-textfield-oe {
+  @include relative();
+  max-width: 456px;
+  width: 100%;
+  .MuiInputBase-input {
+    @include margin-padding(all, null, all, 21px 0 17px 60px);
+    opacity: 0;
+    @include relative();
+    z-index: 1;
+  }
+  label + .MuiInput-formControl {
+    margin-top: 11px;
+  }
+  .MuiInputLabel-formControl {
+    transform: translate(0, 0) scale(1);
+  }
+  .MuiFormLabel-root {
+    display: none;
+  }
+  .MuiTypography-caption {
+    font-weight: 500;
+    line-height: 1.25rem;
+    font-size: 0.813rem;
+  }
+  .MuiTypography-body2 {
+    line-height: 1.25rem;
+    font-size: 0.813rem;
+  }
+  .MuiFormControl-root {
+    width: 100%;
+  }
+  .MuiInputBase-root {
+    background: color("shades", "transparent");
+  }
+}
+
+.virtualoffice-email-oe {
+  .personalize-textfield-oe {
+    .MuiTypography-caption {
+      font-weight: 500;
+      line-height: 1.25rem;
+      font-size: 0.813rem;
+    }
+    .MuiTypography-body2 {
+      line-height: 1.25rem;
+      font-size: 0.813rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      text-align: left;
+    }
+  }
+  .suggestion-texttfield-oe {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    width: calc(100% - 58px);
+  }
+}
+.personalize-textfieldinput-oe {
+  .MuiInput-underline {
+    &:before {
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
+}
+.personalize-addfiles-oe {
+  border: 1px dashed #a9abbe;
+}
+
+.workemail-textfield-oe {
+  @include relative();
+  .email-textfiled-oe {
+    .MuiInputLabel-shrink {
+      transform: translate(0, 5px) scale(1);
+    }
+    .MuiFormLabel-root {
+      // font-size: 1rem;
+      color: #1a1952;
+      @include breakpoint(sm) {
+        font-size: 0.75rem;
+      }
+    }
+    .MuiInputBase-input {
+      font-weight: 400;
+    }
+    .MuiInput-underline {
+      &:before {
+        border-bottom: 1px solid #e0e0e0;
+      }
+    }
+  }
+}
+
+.emailaddress-caption-oe {
+  line-height: normal;
+}
+
+.custom-inputtextfield-oe {
+  padding: 1px;
+  @include relative();
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  &.MuiBox-root {
+    @include breakpoint(sm) {
+      height: 47px;
+    }
+    &.textfield-successmessage-oe {
+      background: #00c896;
+      @include breakpoint(sm) {
+        .lock-icon-oe.MuiBox-root {
+         margin-right: 5px;
+      }
+      }
+    }
+    &.textfield-errormessage-oe {
+      background: #E31B0C;
+    }
+  }
+  .custom-inputtextfieldinner-oe {
+    &.MuiPaper-root {
+      @include relative();
+      @include border-radius(56px);
+      height: 54px;
+      @include margin-padding(all, null, all, 0 2rem);
+      @include flexbox();
+      @include align-items(center);
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+      @include breakpoint(sm) {
+        height: 45px;
+        @include margin-padding(all, null, all, 0 1rem);
+      }
+    }
+  }
+  .custom-input-oe {
+    height: 100%;
+    cursor: not-allowed;
+    pointer-events: none;
+    input[type="text"] {
+      border: none;
+      height: 54px;
+      color: #9e9e9e;
+      background: color("shades", "transparent");
+      font-size: 0.98rem;
+      line-height: 1.563rem;
+      &:focus {
+        outline: none;
+      }
+      @include breakpoint(sm) {
+        height: 43px;
+        font-size: 0.75rem;
+      }
+    }
+    &.MuiBox-root {
+      @include breakpoint(sm) {
+        left: 40px;
+      }
+    }
+  }
+  .custom-inputeditable-oe {
+    @include relative();
+    z-index: 1;
+    input[type="text"] {
+      border: none;
+      height: 54px;
+      color: #9e9e9e;
+      background: color("shades", "transparent");
+      font-size: 0.98rem;
+      line-height: 1.563rem;
+      width: 100%;
+      &:focus {
+        outline: none;
+      }
+      @include breakpoint(sm) {
+        height: 43px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+  .https-text-oe {
+    @include breakpoint(sm) {
+      &.MuiBox-root {
+        // top: 15px;
+        // left: 42px;
+        .MuiTypography-body1 {
+          font-size: 0.75rem;
+
+        }
+      }
+    }
+
+    &.clientpoint-link-oe {
+      .MuiTypography-body1 {
+        text-decoration: underline;
+      }
+      @include breakpoint(sm) {
+        &.MuiBox-root {
+          // top: 14px;
+          // left: 126px;
+          // display: block;
+
+        }
+      }
+    }
+  }
+  .MuiTypography-body1 {
+    font-weight: 500;
+    margin: 0;
+  }
+  .custom-inputeditable-oe {
+    @include relative();
+    z-index: 1;
+    @include breakpoint(sm) {
+      &.MuiBox-root {
+        // left: 231px;
+      }
+    }
+  }
+}
+
+.customfield-outerbox-oe {
+  .customfield-textfield-succsess {
+    @include breakpoint(sm) {
+      &.MuiBox-root {
+        padding-left: 0;
+      }
+      .MuiTypography-caption {
+        font-size: 0.75rem;
+        line-height: normal;
+      }
+    }
+    .custom-inputtextfieldinner-oe {
+      &.MuiPaper-root {
+        @include margin-padding(all, null, all, 0 2rem);
+      }
+    }
+  }
+}
+
+
+.border_color_signer1 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #d765be;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #d765be;
+  }
+}
+
+.border_color_signer2 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #8F93FF;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #8F93FF;
+  }
+}
+
+
+.border_color_signer3 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #7BC67E;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #7BC67E;
+  }
+}
+
+.border_color_signer4 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #64B6F7;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #64B6F7;
+  }
+}
+
+.border_color_signer5 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #FFB633;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #FFB633;
+  }
+}
+
+.border_color_signer6 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #F88078;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #F88078;
+  }
+}
+
+.border_color_signer7 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #ffa06d;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ffa06d;
+  }
+}
+
+.border_color_signer8 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #4dd0e1;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #4dd0e1;
+  }
+}
+
+.border_color_signer9 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #7986cb;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #7986cb;
+  }
+}
+
+.border_color_signer10 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #ba68c8;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ba68c8;
+  }
+}
+
+.border_color_signer11 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #ec407a;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ec407a;
+  }
+}
+
+.border_color_signer12 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #4db6ac;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #4db6ac;
+  }
+}
+
+.border_color_signer13 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #81c784;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #81c784;
+  }
+}
+
+.border_color_signer14 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #d4e157;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #d4e157;
+  }
+}
+
+.border_color_signer15 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #ffeb3b;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ffeb3b;
+  }
+}
+
+.border_color_signer16 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #7c4dff;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #7c4dff;
+  }
+}
+
+.border_color_signer17 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #a1887f;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #a1887f;
+  }
+}
+
+.border_color_signer18 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #bdbdbd;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #bdbdbd;
+  }
+}
+
+.border_color_signer19 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #90a4ae;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #90a4ae;
+  }
+}
+
+.border_color_signer20 {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #00e5ff;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #00e5ff;
+  }
+}
+
+.adavancesettings-field-oe {
+  .MuiInputBase-input {
+    padding-right: 28px;
+  }
+}
+
+.company-text-oe {
+  @include breakpoint(sm) {
+    font-size: .75rem;
+  }
+}

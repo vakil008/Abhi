@@ -1,0 +1,78 @@
+.cutsom-accordion {
+  &.MuiAccordion-root {
+    margin-bottom: 1px;
+    &:before {
+      display: none;
+    }
+    @include box-shadow(none);
+    .MuiAccordionSummary-root {
+      border: none;
+      // @include margin-padding(all, null, all, 0px 25px);
+      @include margin-padding(all, null, all, 0px 16px);
+      &.Mui-expanded {
+        min-height: 48px;
+      }
+    }
+    .MuiTypography-body1 {
+      font-size: 0.938rem;
+      font-weight: 500;
+    }
+    &.Mui-expanded {
+      @include margin-padding(all, 0, all, null);
+    }
+    .MuiIconButton-root {
+      color: inherit;
+    }
+    .MuiAccordionSummary-content {
+      &.Mui-expanded {
+        @include margin-padding(all, 12px 0, all, null);
+      }
+    }
+  }
+  .MuiAccordionDetails-root {
+    // @include margin-padding(all, null, all, 8px 25px 16px);
+    @include margin-padding(all, null, all, 8px 16px 16px);
+    @include flex-direction(column);
+  }
+  &.custom-accordion-listing {
+    .MuiAccordionSummary-root {
+      border: none;
+      @include margin-padding(all, null, all, 0);
+    }
+    .MuiAccordionDetails-root {
+      @include margin-padding(all, null, all, 8px 0 16px);
+    }
+  }
+  &.connect-accordion {
+    .MuiAccordionSummary-content {
+      flex-grow: 1;
+      width: 86%;
+    }
+    .MuiBox-root.member-list-content {
+      max-width: 50%;
+      .MuiTypography-body1,
+      .MuiTypography-body2 {
+        overflow: hidden;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+.outer-accordion-detail {
+  &.MuiAccordionDetails-root {
+    @include margin-padding(all, null, all, 8px 0 0);
+  }
+}
+
+// Public profile CSS Bug fixes
+
+.public-profile-accordion {
+  &.MuiAccordion-root {
+    .MuiIconButton-root {
+      padding-top: 0;
+      margin-top: -10px;
+    }
+  }
+}

@@ -1,0 +1,112 @@
+@import "../style/color";
+@import "../style/variables";
+@import "../style/mixins";
+
+// Header start here
+
+.appHeader {
+  background: #ffffff;
+  height: 70px;
+@include fixed(top 0 left 0);
+width: 100%;
+transition: all 0.5s;
+box-sizing: border-box;
+border-bottom: 1px solid #EEEEEE;
+z-index: 2;
+
+  .MuiToolbar-regular {
+    min-height: 70px;
+  }
+  .growRow {
+    flex: 1;
+  }
+  .MuiAppBar-root {
+    @include box-shadow(none);
+    border-bottom: 1px solid #EEEEEE;
+  }
+  .avatarThemeMargin {
+    @include margin-padding(all, 0 1rem 0, all, null);
+  }
+  .dropdownRightMargin {
+    @include margin-padding(all, 0 0 0 1rem, all, null);
+  }
+  .newClientpointButton {
+    &.MuiButton-root {
+      @include margin-padding(all, null, all, 8px 16px);
+      letter-spacing: 0.4px;
+      height: 40px;
+      @include breakpoint(xs) {
+        .MuiButton-label {
+          width: 20px;
+        }
+        width: 40px;
+        max-width: 40px;
+        font-size: 0;
+        padding: 0;
+        min-width: 40px;
+        margin-left: 6px;
+        img {
+          margin-right: -7px;
+        }
+      }
+    }
+    img {
+      @include margin-padding(all, 0 8px 0 0, all, null);
+    }
+  }
+  .headerRightIcons {
+    &.MuiIconButton-root {
+      @include margin-padding(all, 0 0.8rem 0 0, all, 10px);
+      height: 40px;
+      width: 40px;
+    }
+  }
+  .MuiInputBase-root {
+    min-height: 40px;
+    width: 100%;
+  }
+  .MuiInputBase-input {
+    min-height: 24px;
+    @include border-radius(5px);
+  }
+  .headerRightIcons {
+    &.MuiIconButton-root {
+      color: #a9abbe;
+    }
+  }
+
+  .MuiInputBase-input {
+    background: color("grey", "lighten-9");
+    min-height: 27px;
+    padding-left: 2.5rem;
+    padding-right: 0.813rem;
+  }
+  .searchBox {
+    max-width: 326px;
+    width: 100%;
+    // @include margin-padding(all, 0 0.75rem 0 0, all, null);
+    .MuiSvgIcon-root {
+      fill: #a8aabd;
+    }
+  }
+  .badgeStatus {
+    @include relative();
+  }
+  .status {
+    background: color("green", "base");
+    width: 8px;
+    height: 8px;
+    @include border-radius(100%);
+    @include absolute(right 0 bottom 0);
+    border: 2px solid #fff;
+  }
+  .MuiAvatar-root {
+    background: #299277;
+    color: #ffffff;
+  }
+  .newButtonText {
+    display: inline-block;
+    margin-top: 2px;
+  }
+}
+

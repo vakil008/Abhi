@@ -1,0 +1,228 @@
+/* flexbox mixins */
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex-direction($properties) {
+  -webkit-flex-direction: $properties;
+  -ms-flex-direction: $properties;
+  flex-direction: $properties;
+}
+
+@mixin inline-flex {
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin flex($values) {
+  -moz-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values;
+}
+
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+  -moz-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
+  flex-wrap: $wrap;
+}
+
+@mixin justify-content($value: flex-start) {
+  @if $value==flex-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+  } @else if $value==flex-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+  } @else if $value==space-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+  } @else if $value==space-around {
+    -ms-flex-pack: distribute;
+  } @else {
+    -webkit-box-pack: $value;
+    -ms-flex-pack: $value;
+  }
+
+  -webkit-justify-content: $value;
+  -moz-justify-content: $value;
+  justify-content: $value;
+}
+
+@mixin align-items($properties) {
+  @if $properties== 'flex-start' {
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+  } @else if $properties== 'flex-end' {
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+  } @else if $properties== 'center' {
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  } @else if $properties== 'baseline' {
+    -webkit-align-items: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+  } @else if $properties== 'stretch' {
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+  }
+}
+
+@mixin align-self($properties) {
+  @if $properties== 'auto' {
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+  } @else if $properties== 'flex-start' {
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+  } @else if $properties== 'flex-end' {
+    -webkit-align-self: flex-end;
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+  } @else if $properties== 'center' {
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+  } @else if $properties== 'baseline' {
+    -webkit-align-self: baseline;
+    -ms-flex-item-align: baseline;
+    align-self: baseline;
+  } @else if $properties== 'stretch' {
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+  }
+}
+
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;
+  -moz-box-ordinal-group: $val;
+  -ms-flex-order: $val;
+  -webkit-order: $val;
+  order: $val;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+/* box-shadow mixins */
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -ms-box-shadow: $shadow;
+  -o-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+/* margin-padding mixins */
+
+@mixin margin-padding($m-direction, $m-amount, $p-direction, $p-amount) {
+  @if $m-direction==all {
+    margin: $m-amount;
+  } @else {
+    margin-#{$m-direction}: $m-amount;
+  }
+
+  @if $p-direction==all {
+    padding: $p-amount;
+  } @else {
+    padding-#{$p-direction}: $p-amount;
+  }
+}
+
+/* pseudo-mixins */
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+/* truncate-mixins */
+
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* postion-mixins */
+
+@mixin position($position, $args) {
+  @each $o in top right bottom left {
+    $i: index($args, $o);
+
+    @if $i and $i + 1 <=length($args) and type-of(nth($args, $i + 1)) ==number {
+      #{$o}: nth($args, $i + 1);
+    }
+  }
+
+  position: $position;
+}
+
+// Positioning helpers
+@mixin absolute($args: '') {
+  @include position(absolute, $args);
+}
+
+@mixin fixed($args: '') {
+  @include position(fixed, $args);
+}
+
+@mixin relative($args: '') {
+  @include position(relative, $args);
+}
+
+@mixin breakpoint($point) {
+  @if $point == xl {
+    @media (max-width: $xl-breakepoint) {
+      @content;
+    }
+  } @else if $point == lg {
+    @media (max-width: $lg-breakepoint) {
+      @content;
+    }
+  } @else if $point == ipad {
+    @media (max-width: $ipad-breakpoint) {
+      @content;
+    }
+  } @else if $point == md {
+    @media (max-width: $md-breakepoint) {
+      @content;
+    }
+  } @else if $point == sm {
+    @media (max-width: $sm-breakepoint) {
+      @content;
+    }
+  } @else if $point == xs {
+    @media (max-width: $xs-breakepoint) {
+      @content;
+    }
+  } @else if $point == vs {
+    @media (max-width: $vs-breakepoint) {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,213 @@
+.custom-textfield {
+  .MuiOutlinedInput-notchedOutline {
+    border-color: transparent;
+    @include box-shadow(0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12));
+  }
+
+  .MuiOutlinedInput-input {
+    @include margin-padding(all, null, all, 15.5px 14px);
+  }
+
+  .MuiInputBase-root {
+    font-size: 1rem;
+  }
+
+  .MuiInputLabel-outlined {
+    &.MuiInputLabel-shrink {
+      transform: translate(14px, -4px) scale(0.75);
+    }
+  }
+}
+
+.post-textarea {
+  margin-top: -1px;
+
+  textarea {
+    border: none;
+    resize: none;
+    width: 100%;
+    @include margin-padding(all, null, all, 0.688rem 1.563rem);
+    box-sizing: border-box;
+    background: color('shades', 'transparent');
+    height: 121px !important;
+    overflow: auto !important;
+    font-size: 0.938rem;
+    line-height: 1.563rem;
+    font-family: 'Roboto', sans-serif;
+    color: inherit;
+    @include breakpoint(sm) {
+      @include margin-padding(all, null, all, 0.688rem 1rem);
+    }
+
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+  }
+  &.textarea-group {
+    textarea {
+      @include margin-padding(all, null, all, 15px 20px);
+      font-size: 1rem;
+    }
+  }
+}
+
+.textfield-custom-label {
+  .MuiTypography-subtitle1 {
+    font-weight: 500;
+  }
+
+  .MuiTypography-body1 {
+    font-size: 0.813rem;
+  }
+
+  .custom-textfield {
+    width: 100%;
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: transparent;
+      @include box-shadow(none);
+    }
+
+    &.custom-field-padding {
+      .MuiOutlinedInput-input {
+        @include margin-padding(all, null, all, 15.5px 40px 15.5px 14px);
+      }
+    }
+
+    &.phone-textfield {
+      .MuiOutlinedInput-input {
+        @include margin-padding(all, null, all, 15.5px 14px 15.5px 50px);
+      }
+    }
+  }
+
+  .MuiInputBase-input {
+    background: color('grey', 'lighten-10');
+    @include border-radius(4px);
+  }
+
+  .MuiInputLabel-root {
+    font-size: 0.813rem;
+    @include margin-padding(all, 0 0 0.375rem 0, all, null);
+  }
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .MuiSelect-icon {
+    &.MuiSvgIcon-root {
+      font-size: 0;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2LjU5IDguNTg5ODRMMTIgMTMuMTY5OEw3LjQxIDguNTg5ODRMNiA5Ljk5OTg0TDEyIDE1Ljk5OThMMTggOS45OTk4NEwxNi41OSA4LjU4OTg0WiIgZmlsbD0iI0E5QUJCRSIvPgo8L3N2Zz4K');
+      background-position: 96% 25px;
+      width: 24px;
+      height: 24px;
+
+      path {
+        display: none;
+      }
+    }
+  }
+}
+
+.drawer-textarea {
+  textarea {
+    @include margin-padding(all, null, all, 0.938rem 1.188rem);
+    font-size: 1rem;
+    height: 97px !important;
+    @include breakpoint(sm) {
+      @include margin-padding(all, null, all, 0.688rem 1rem);
+    }
+  }
+}
+
+.textfield-icon {
+  .material-icons {
+    font-size: 21px;
+  }
+}
+
+.share-link-textfield {
+  border-bottom: 1px solid;
+
+  input[type='text'] {
+    width: 100%;
+    height: 53px;
+    border: none;
+    background-color: color('shades', 'transparent');
+    @include margin-padding(all, null, all, 15px 25px);
+    box-sizing: border-box;
+    color: inherit;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.profile-link-textfield {
+  input[type='text'] {
+    width: auto;
+    height: 48px;
+    border: none;
+    outline: none;
+    background-color: color('shades', 'transparent');
+    @include margin-padding(all, null, all, 15.5px 14px);
+    box-sizing: border-box;
+
+    &.padding-left {
+      padding-left: 5px;
+    }
+
+    &.padding-right {
+      padding-right: 0;
+    }
+  }
+}
+
+.group-name-textfield {
+  input[type='text'] {
+    width: auto;
+    height: 48px;
+    border: none;
+    outline: none;
+    background-color: color('shades', 'transparent');
+    @include margin-padding(all, null, all, 15.5px 14px);
+    box-sizing: border-box;
+
+    &.padding-left {
+      padding-left: 0;
+    }
+
+    &.padding-right {
+      padding-right: 0;
+    }
+  }
+}
+
+.group-message-textarea {
+  margin-top: -1px;
+
+  textarea {
+    border: none;
+    resize: none;
+    width: 100%;
+    @include margin-padding(all, null, all, 15.5px 14px);
+    box-sizing: border-box;
+    background: color('shades', 'transparent');
+    height: 121px !important;
+    overflow: auto !important;
+    line-height: 1.563rem;
+    font-family: 'Roboto', sans-serif;
+    color: inherit;
+    @include breakpoint(sm) {
+      @include margin-padding(all, null, all, 0.688rem 1rem);
+    }
+
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+  }
+}
