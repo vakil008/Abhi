@@ -61,7 +61,7 @@ class Login extends React.PureComponent {
       const { status, data } = response;
       const { respCode } = data;
       console.log("response after login call --> ", response);
-      if (status && respCode == 1) {
+      if (status && respCode === 1) {
         const {
           access,
           defaultstatecode,
